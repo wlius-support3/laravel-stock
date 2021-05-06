@@ -14,6 +14,23 @@ class HasStockTest extends TestCase
     }
 
     /** @test */
+    public function it_can_have_no_stock_in_a_given_warehouse_but_stock_in_other_warehouses()
+    {
+        $this->stockWithWarehouseModel->setStock(15, ['warehouse' => 2]);
+        $this->stockWithWarehouseModel->setStock(0, ['warehouse' => 1]);
+        $this->assertEquals(0, $this->stockWithWarehouseModel->stock(null, 1));
+        $this->assertEquals(15, $this->stockWithWarehouseModel->stock(null, 2));
+    }
+
+    /** @test */
+    public function it_can_return_the_stock_across_all_warehouses()
+    {
+        $this->stockWithWarehouseModel->setStock(10, ['warehouse' => 1]);
+        $this->stockWithWarehouseModel->setStock(15, ['warehouse' => 2]);
+        $this->assertEquals(25, $this->stockWithWarehouseModel->stock);
+    }
+
+    /** @test */
     public function it_can_set_initial_stock()
     {
         $this->stockModel->setStock(10);

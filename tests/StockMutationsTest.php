@@ -71,4 +71,28 @@ class StockMutationsTest extends TestCase
         $this->assertEquals(1, $referenceMutation->stockable_id);
         $this->assertEquals(StockModel::class, $referenceMutation->stockable_type);
     }
+
+    /** @test */
+    public function it_can_have_mutations_with_a_warehouse()
+    {
+        $this->stockWithWarehouseModel->increaseStock(10, [
+            'warehouse' => 1,
+        ]);
+
+        $stockMutation = $this->stockWithWarehouseModel->stockMutations->first();
+
+        $this->assertEquals(1, $stockMutation->warehouse_id);
+    }
+
+    /** @test */
+    public function it_cannot_have_mutations_with_a_warehouse_set_when_the_warehouse_trait_is_not_included()
+    {
+        $this->stockModel->increaseStock(10, [
+            'warehouse' => 1,
+        ]);
+
+        $stockMutation = $this->stockModel->stockMutations->first();
+
+        $this->assertEquals(null, $stockMutation->warehouse_id);
+    }
 }

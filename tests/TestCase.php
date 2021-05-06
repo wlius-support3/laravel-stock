@@ -9,6 +9,7 @@ use Orchestra\Testbench\TestCase as BaseTest;
 abstract class TestCase extends BaseTest
 {
     protected $stockModel;
+    protected $stockWithWarehouseModel;
 
     /**
      * Define environment setup.
@@ -42,6 +43,7 @@ abstract class TestCase extends BaseTest
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
         $this->stockModel = StockModel::first();
+        $this->stockWithWarehouseModel = StockWithWarehouseModel::first();
         $this->referenceModel = ReferenceModel::first();
         $this->orderRow = OrderRow::first();
     }
